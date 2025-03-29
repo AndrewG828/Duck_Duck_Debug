@@ -6,7 +6,7 @@ from models.bert_training import BertEmbedder  # assumes bert_training.py is in 
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
 class CustomBertEmbeddings(Embeddings):
-    def __init__(self, model_path="../models/bert3.pth"):
+    def __init__(self, model_path="../models/bert4.pth"):
         self.model = BertEmbedder()
         self.model.load_state_dict(torch.load(model_path, map_location=device))
         self.model.to(device)
