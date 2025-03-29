@@ -1,0 +1,5 @@
+node_modules/
+.env
+/models/bert2.pth
+/models/bert3.pth
+/models/bert4.pth
