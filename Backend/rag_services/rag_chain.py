@@ -1,0 +1,117 @@
+import os
+from dotenv import load_dotenv
+import sys
+
+# Dynamically add the project root to sys.path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(project_root)
+
+load_dotenv()
+
+openai_key = os.getenv("OPENAI_API_KEY")
+langsmith_key = os.getenv("LANGCHAIN_API_KEY")
+langsmith_endpoint = os.getenv("LANGCHAIN_ENDPOINT", "https://api.smith.langchain.com")
+langsmith_tracing = os.getenv("LANGCHAIN_TRACING_V2", "true")
+mongo_URI = os.getenv("MONGO_URI")
+
+# Set them into os.environ (if LangChain needs them this way)
+os.environ['OPENAI_API_KEY'] = openai_key
+os.environ['LANGCHAIN_API_KEY'] = langsmith_key
+os.environ['LANGCHAIN_ENDPOINT'] = langsmith_endpoint
+os.environ['LANGCHAIN_TRACING_V2'] = langsmith_tracing
+
+import torch
+from models.custom_bert_embedder import CustomBertEmbeddings
+from pymongo import MongoClient
+from langchain_core.documents import Document
+from langchain_community.vectorstores import Chroma
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain.load import dumps, loads
+from langchain_openai import ChatOpenAI
+from operator import itemgetter
+
+device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+
+# Connect to your MongoDB
+client = MongoClient(mongo_URI)
+db = client["test"]
+collection = db["codes"]
+
+# Load code documents from MongoDB
+def clean_metadata(entry):
+    def safe(val):
+        return str(val) if val is not None else ""
+
+    return {
+        "class_name": safe(entry.get("class_name")),
+        "file_name": safe(entry.get("file_name")),
+        "file_path": safe(entry.get("file_path")),
+        "language": safe(entry.get("language"))
+    }
+
+code_docs = []
+
+for entry in collection.find({"language": "Java"}):
+    content = entry.get("content")
+    if content:
+        metadata = clean_metadata(entry)
+        code_docs.append(Document(page_content=content, metadata=metadata))
+print("Document count:", collection.count_documents({}))
+print("Loaded", len(code_docs), "code documents from MongoDB")
+
+splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(chunk_size=300, chunk_overlap=50)
+splits = splitter.split_documents(code_docs)
+
+embedding_fn = CustomBertEmbeddings()
+vectorstore = Chroma.from_documents(splits, embedding=embedding_fn)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 5}) 
+
+# Final RAG chain
+template1 = """Determine whether or not it seems like this person has solved their issue. If so, output a 1, otherwise output a 0.
+User Query: {question}
+"""
+final_prompt1 = ChatPromptTemplate.from_template(template1)
+llm = ChatOpenAI(temperature=0)
+
+filtering_chain = (
+    itemgetter("question")
+    | final_prompt1
+    | llm
+    | StrOutputParser()
+)
+template2 = """Act as a "rubber duck" for debugging. Your role is to help the user identify and resolve a bug in their codebase 
+without directly revealing the cause. Instead, guide them by asking them multiple thoughtful, specific follow-up questions at a time
+that prompt them to explain their code, assumptions about the code base, and the bug in detail. Focus on drawing out relevant context 
+from their code and reasoning. Be patient and inquisitive, like a mentor who helps the user reach insights on their own. 
+The user’s initial query may contain irrelevant details as they are speaking so noise—filter for what's most pertinent to the bug.
+
+Context: {context}
+
+User Query: {question}
+"""
+final_prompt2 = ChatPromptTemplate.from_template(template2)
+llm = ChatOpenAI(temperature=0)
+
+final_rag_chain1 = (
+    # {"context": retrieval_chain, "question": itemgetter("question")}
+    {"context": lambda x: retriever.get_relevant_documents(x["question"]), "question": itemgetter("question")}
+    | final_prompt2
+    | llm
+    | StrOutputParser()
+)
+
+template3 = """Write out a congratulation message for the user as he as just solved a very difficult bug.
+User Query: {question}"""
+final_prompt3 = ChatPromptTemplate.from_template(template3)
+llm = ChatOpenAI(temperature=0)
+
+final_rag_chain2 = (
+    # {"context": retrieval_chain, "question": itemgetter("question")}
+    itemgetter("question")
+    | final_prompt3
+    | llm
+    | StrOutputParser()
+)
