@@ -99,7 +99,7 @@ const LandingPage = ({ onStart }) => {
         variants={duckVariants}
         initial="hidden"
         animate="visible"
-        exit={{ opacity: 1, scale: 0.5, x: -633, y: -300 }}
+        exit={{ opacity: 1, scale: 0.5, x: -722, y: -420 }}
         layout="position"
         transition={{
           type: "spring",
