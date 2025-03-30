@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import "./styles.css";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
-import { marked } from "marked";
 import VoicePanel from "./VoicePanel";
 import Tabs from "./Tabs"; // might remove
 import CodeViewer from "./CodeViewer";
@@ -15,7 +14,7 @@ const DuckDuckDebug = () => {
     uml: `{\n  "file": "main.js",\n  "lines": 42,\n  "errors": []\n}`,
   });
   const [bubbleText, setBubbleText] = useState(
-    "What are youyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyou having trouble with? "
+    "What are you having trouble with? "
   );
   const [inputText, setInputText] = useState("");
   const fileInputRef = useRef(null);

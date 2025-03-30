@@ -17,43 +17,9 @@ const LandingPage = ({ onStart }) => {
     },
     visible: {
       x: 0,
-      y: [
-        -150, // Starting height
-        0, // First bounce on ground (squish)
-        -80, // Height after first bounce
-        0, // Second bounce on ground (squish)
-        -40, // Height after second bounce
-        0, // Third bounce on ground (squish)
-        -20, // Height after third bounce
-        0, // Final position on ground
-      ],
-      // Squish effect - widen and flatten when hitting the ground
-      scaleX: [
-        1, // Normal
-        1.15, // Wider on first bounce
-        1, // Normal
-        1.1, // Wider on second bounce
-        1, // Normal
-        1.1, // Wider on third bounce
-        1, // Normal
-        1,
-        1,
-        1.2,
-        1, // Final normal scale
-      ],
-      scaleY: [
-        1, // Normal
-        0.85, // Flatter on first bounce
-        1, // Normal
-        0.9, // Flatter on second bounce
-        1, // Normal
-        0.9, // Flatter on third bounce
-        1, // Normal
-        1,
-        1,
-        0.8,
-        1, // Final normal scale
-      ],
+      y: [-150, 0, -80, 0, -40, 0, -20, 0],
+      scaleX: [1, 1.15, 1, 1.1, 1, 1.1, 1, 1, 1, 1.2, 1],
+      scaleY: [1, 0.85, 1, 0.9, 1, 0.9, 1, 1, 1, 0.8, 1],
       opacity: 1,
       transition: {
         x: {
@@ -63,12 +29,9 @@ const LandingPage = ({ onStart }) => {
         },
         y: {
           duration: 3,
-          // 0, 0.3, 0.5, 0.65, 0.8, 0.9, 0.95, 1
-          //   0, 0.24, 0.4, 0.5, 0.56, 0.6, 0.63, 0.65
           times: [0, 0.24, 0.4, 0.5, 0.56, 0.6, 0.63, 0.65],
           ease: "easeInOut",
         },
-        // Use the same timing for scale animations to match the bounces
         scaleX: {
           duration: 3,
           times: [0, 0.24, 0.4, 0.5, 0.56, 0.6, 0.63, 0.65, 0.87, 0.95, 1],
@@ -141,10 +104,9 @@ const LandingPage = ({ onStart }) => {
         transition={{
           type: "spring",
           ease: "linear",
-          duration: 1.75,
+          duration: 1.6,
           delay: 0.2,
         }}
-        // transition={{ delay: 0.2 }}
       />
     </div>
   );
