@@ -3,7 +3,7 @@ import "./styles.css";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 import VoicePanel from "./VoicePanel";
-import Tabs from "./Tabs"; // might remove
+import Tabs from "./Tabs";
 import CodeViewer from "./CodeViewer";
 import FileUploader from "./FileUploader";
 
