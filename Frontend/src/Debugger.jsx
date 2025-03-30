@@ -43,7 +43,6 @@ const DuckDuckDebug = () => {
       console.error("Audio playback error");
       setIsTalking(false);
     };
-
     audio.play();
   };
 
