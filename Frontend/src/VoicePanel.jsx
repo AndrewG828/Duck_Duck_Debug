@@ -8,8 +8,16 @@ const VoicePanel = ({
   onMicClick,
   fileUploader,
 }) => {
-  const [showDuck, setShowDuck] = useState(false);
+  const [showDuck, setShowDuck] = useState(true);
   const [mouthOpen, setMouthOpen] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowDuck(false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   useEffect(() => {
     let interval;
@@ -36,7 +44,7 @@ const VoicePanel = ({
             src={mouthOpen ? "/duck_open.png" : "/duck_closed.png"}
             alt="Duck"
             className="debug-duck"
-            transition={{ type: "tween", ease: "linear", duration: 0.3 }}
+            animate={{ opacity: showDuck ? 1 : 0 }}
             layoutId="duck"
             layout="position"
           />
@@ -45,7 +53,10 @@ const VoicePanel = ({
       </div>
 
       <div className="mic-container">
-        <div className={`mic-wrapper ${isRecording ? "recording" : ""}`} onClick={onMicClick}>
+        <div
+          className={`mic-wrapper ${isRecording ? "recording" : ""}`}
+          onClick={onMicClick}
+        >
           <div className="mic-waves">
             <span className="wave"></span>
             <span className="wave"></span>
