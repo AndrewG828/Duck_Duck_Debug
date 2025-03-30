@@ -1,4 +1,4 @@
-from rag_chain import final_rag_chain1, final_rag_chain2, filtering_chain
+from rag_chain import final_rag_chain1, final_rag_chain2, filtering_chain, retriever
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import openai
@@ -107,6 +107,18 @@ def get_audio(filename):
         return send_file(file_path, mimetype='audio/mpeg')
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+@app.route("/get_retrieved_code", methods=["POST"])
+def get_retrieved_code():
+    data = request.get_json()
+    question = data.get("question", "")
+    docs = retriever.get_relevant_documents(question)
+    top2 = docs[:5]
+    return jsonify([
+        {"content": doc.page_content, "metadata": doc.metadata}
+        for doc in top2
+    ])
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001)
