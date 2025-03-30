@@ -3,19 +3,16 @@ import { motion } from "framer-motion";
 
 const VoicePanel = ({
   bubbleText,
-  inputText,
-  onChange,
-  onRecord,
-  onSend,
   isRecording,
   isTalking,
+  onMicClick,
   fileUploader,
 }) => {
   const [showDuck, setShowDuck] = useState(false);
   const [mouthOpen, setMouthOpen] = useState(false);
+
   useEffect(() => {
     let interval;
-
     if (isTalking) {
       interval = setInterval(() => {
         setMouthOpen((prev) => !prev);
@@ -23,17 +20,11 @@ const VoicePanel = ({
     } else {
       setMouthOpen(false);
     }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [isTalking]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowDuck(true);
-    }, 600); // match transition duration
-
+    const timeout = setTimeout(() => setShowDuck(true), 600);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -52,21 +43,32 @@ const VoicePanel = ({
           <div className="bubble">{bubbleText}</div>
         </div>
       </div>
-      <div className="input-area">
-        <textarea
-          placeholder="Type your message..."
-          value={inputText}
-          onChange={onChange}
-          className="input-textarea"
-        />
-        <button className="button" onClick={onRecord}>
-          {isRecording ? "Stop" : "Record"}
-        </button>
-        <button className="button" onClick={onSend}>
-          Send
-        </button>
-        {fileUploader}
+
+      <div className="mic-container">
+        <div className={`mic-wrapper ${isRecording ? "recording" : ""}`} onClick={onMicClick}>
+          <div className="mic-waves">
+            <span className="wave"></span>
+            <span className="wave"></span>
+            <span className="wave"></span>
+            <span className="wave"></span>
+            <span className="wave"></span>
+          </div>
+          {!isRecording && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="48"
+              viewBox="0 0 24 24"
+              width="48"
+              fill="white"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm4.3-3c0 2.24-1.78 4.07-4.3 4.07S7.7 13.24 7.7 11H6c0 2.76 2.24 5 5 5v3h2v-3c2.76 0 5-2.24 5-5h-1.7z" />
+            </svg>
+          )}
+        </div>
       </div>
+
+      <div className="file-upload-area">{fileUploader}</div>
     </div>
   );
 };
