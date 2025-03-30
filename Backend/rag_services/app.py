@@ -58,7 +58,7 @@ def text_to_speech():
             return jsonify({'error': 'No text provided'}), 400
             
         # ElevenLabs API endpoint
-        url = "https://api.elevenlabs.io/v1/text-to-speech/TxGEqnHWrfWFTfGW9XjX"  # Default voice ID
+        url = "https://api.elevenlabs.io/v1/text-to-speech/vDIugAdS5Kvhnm7nVYQ7"
         
         headers = {
             "Accept": "audio/mpeg",
