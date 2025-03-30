@@ -15,7 +15,7 @@ const DuckDuckDebug = () => {
     uml: `{\n  "file": "main.js",\n  "lines": 42,\n  "errors": []\n}`,
   });
   const [bubbleText, setBubbleText] = useState(
-    "What are youyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyouyou having trouble with? "
+    "What are you having trouble with? "
   );
   const [inputText, setInputText] = useState("");
   const fileInputRef = useRef(null);
