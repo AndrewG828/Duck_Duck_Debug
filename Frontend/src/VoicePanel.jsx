@@ -8,16 +8,7 @@ const VoicePanel = ({
   onMicClick,
   fileUploader,
 }) => {
-  const [showDuck, setShowDuck] = useState(true);
   const [mouthOpen, setMouthOpen] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowDuck(false);
-    }, 3000);
-
-    return () => clearTimeout(timeout);
-  }, []);
 
   useEffect(() => {
     let interval;
@@ -44,7 +35,6 @@ const VoicePanel = ({
             src={mouthOpen ? "/duck_open.png" : "/duck_closed.png"}
             alt="Duck"
             className="debug-duck"
-            animate={{ opacity: showDuck ? 1 : 0 }}
             layoutId="duck"
             layout="position"
           />
