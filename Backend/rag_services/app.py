@@ -11,8 +11,6 @@ CORS(app)
 
 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
-
 @app.route("/query", methods=["POST"])
 def query():
     question = request.json.get("question")
@@ -65,7 +63,7 @@ def text_to_speech():
         headers = {
             "Accept": "audio/mpeg",
             "Content-Type": "application/json",
-            "xi-api-key": "sk_041bddc121a21e18759249e2a8d5a446a72d0870100efee2"
+            "xi-api-key": os.getenv("ELEVENLABS_API_KEY")
         }
         
         payload = {
