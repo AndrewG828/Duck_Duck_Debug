@@ -81,7 +81,7 @@ const LandingPage = ({ onStart }) => {
           Your AI rubber duck coding companion
         </motion.p>
         <motion.button
-          className="button"
+          className="start-button"
           onClick={() => navigate("/debug")}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

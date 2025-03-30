@@ -1,6 +1,6 @@
 import React from "react";
 
-const Tabs = ({ activeTab, onTabClick }) => {
+const Tabs = ({ activeTab, onTabClick, fileUploader }) => {
   return (
     <div className="tabs">
       <div
@@ -15,6 +15,7 @@ const Tabs = ({ activeTab, onTabClick }) => {
       >
         UML
       </div>
+      <div className="file-upload-area">{fileUploader}</div>
     </div>
   );
 };

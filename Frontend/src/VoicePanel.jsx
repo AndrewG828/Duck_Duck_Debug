@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const VoicePanel = ({
-  bubbleText,
-  isRecording,
-  isTalking,
-  onMicClick,
-  fileUploader,
-}) => {
+const VoicePanel = ({ bubbleText, isRecording, isTalking, onMicClick }) => {
   const [mouthOpen, setMouthOpen] = useState(false);
 
   useEffect(() => {
@@ -63,8 +57,6 @@ const VoicePanel = ({
           )}
         </div>
       </div>
-
-      <div className="file-upload-area">{fileUploader}</div>
     </div>
   );
 };
