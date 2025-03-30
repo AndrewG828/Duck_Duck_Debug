@@ -22,11 +22,6 @@ const VoicePanel = ({
     return () => clearInterval(interval);
   }, [isTalking]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setShowDuck(true), 600);
-    return () => clearTimeout(timeout);
-  }, []);
-
   return (
     <div className="voice-section">
       <div className="chat-section">
