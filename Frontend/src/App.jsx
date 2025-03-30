@@ -69,10 +69,4 @@ const App = () => (
   </Router>
 );
 
-const App = () => (
-  <Router>
-    <AnimatedRoutes />
-  </Router>
-);
-
 export default App;
