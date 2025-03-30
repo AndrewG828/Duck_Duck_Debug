@@ -31,6 +31,10 @@ body {
   justify-content: flex-start;
 }
 
+.right-panel {
+  max-width: 40%;
+}
+
 .chat-section {
   flex-grow: 1;
   background-color: #1a1b1e;
@@ -168,7 +172,7 @@ body {
 
 .content-box {
   flex-grow: 1;
-  /* max-width: ; */
+  /* max-width: 40%; */
   background: #1a1b1e;
   border: 1px solid #383a40;
   border-radius: 10px;
@@ -180,4 +184,23 @@ body {
 
 pre {
   margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1b1e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f4147;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

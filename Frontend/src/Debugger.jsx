@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import "./styles.css";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
-import { marked } from "marked";
 import VoicePanel from "./VoicePanel";
 import Tabs from "./Tabs"; // might remove
 import CodeViewer from "./CodeViewer";

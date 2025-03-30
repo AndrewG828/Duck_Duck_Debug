@@ -17,7 +17,7 @@ const CodeViewer = ({ content, activeTab }) => {
 
   return (
     <div className="content-box" id="tab-content">
-      <pre>
+      <pre className="code-wrapper">
         <code ref={codeRef} className={`language-${language}`}>
           {content[activeTab]}
         </code>{" "}
