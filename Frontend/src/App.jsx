@@ -49,7 +49,7 @@ const AnimatedRoutes = () => {
               <motion.img
                 src="/duck_closed.png"
                 layoutId="debug-duck"
-                initial={{ opacity: 1, scale: 0.5, x: -15, y: -930 }}
+                initial={{ opacity: 1, scale: 0.5, x: -15, y: -1146 }}
                 animate={{ opacity: isVisible ? 1 : 0 }}
                 style={{ opacity: 1 }}
                 layout
