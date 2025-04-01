@@ -58,7 +58,7 @@ PORT=8000
 
 ### Install Backend and Frontend Dependencies
 ```bash
-cd backend
+cd ../backend
 pip install -r requirements.txt
 
 cd ../frontend
