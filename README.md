@@ -42,7 +42,7 @@ Duck Duck Debug is an AI-powered debugging assistant designed to make debugging 
 #### Clone the Repository
 ```bash
 git clone SSH of Duck_Duck_Debug
-cd duck-duck-debug
+cd Duck_Duck_Debug
 ```
 
 ---
