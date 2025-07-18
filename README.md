@@ -2,6 +2,8 @@
 
 Duck Duck Debug is an AI-powered debugging assistant designed to make debugging more interactive and intuitive. Inspired by rubber duck debugging, it listens as you verbally walk through your code and provides relevant insights, guiding questions, and code context to help you solve issues and better understand your codebase.
 
+Devpost overview & demo: https://devpost.com/software/duck-duck-debug
+
 ---
 
 ## Features
